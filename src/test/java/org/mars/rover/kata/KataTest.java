@@ -17,4 +17,12 @@ public class KataTest {
             Assertions.fail("Class " + className + " does not exist.");
         }
     }
+
+    @Test
+    public void testRoverReceivesStartingPointAndPosition() {
+        MarsRover marsRover = new MarsRover();
+
+        marsRover.setDirection(new Direction('N'));
+        marsRover.setPosition(new Position(0, 1));
+    }
 }
