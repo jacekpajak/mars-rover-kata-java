@@ -22,7 +22,11 @@ public class KataTest {
     public void testRoverReceivesStartingPointAndPosition() {
         MarsRover marsRover = new MarsRover();
 
-        marsRover.setDirection(new Direction('N'));
+        marsRover.setDirection(Direction.N);
         marsRover.setPosition(new Position(0, 1));
+
+        Assertions.assertEquals(marsRover.getDirection(), Direction.N);
+        Assertions.assertEquals(marsRover.getPosition().getX(), 0);
+        Assertions.assertEquals(marsRover.getPosition().getY(), 1);
     }
 }
