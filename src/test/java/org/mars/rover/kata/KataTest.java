@@ -4,11 +4,12 @@ import org.junit.Rule;
 import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+
+import java.io.ByteArrayInputStream;
+import java.util.Scanner;
+
 import static org.junit.contrib.java.lang.system.TextFromStandardInputStream.emptyStandardInputStream;
 
-@RunWith(MockitoJUnitRunner.class)
 public class KataTest {
     @Rule
     public final TextFromStandardInputStream systemInMock = emptyStandardInputStream();
@@ -51,6 +52,20 @@ public class KataTest {
         } catch (ClassNotFoundException e) {
             Assertions.fail("Class " + className + " does not exist.");
         }
+    }
+
+    // nav class
+    @Test
+    public void testNavigatorConstructsUpperRightCoordinates() {
+        String coordinates = "5 5";
+        System.setIn(new ByteArrayInputStream(coordinates.getBytes()));
+        MarsNavigator marsNavigator = new MarsNavigator(new Scanner(System.in));
+
+        marsNavigator.loadInput();
+        Coordinate coordinate = marsNavigator.getCoordinate(1, 3);
+
+        Assertions.assertEquals(coordinate.getX(), 1);
+        Assertions.assertEquals(coordinate.getY(), 3);
     }
 
 }
