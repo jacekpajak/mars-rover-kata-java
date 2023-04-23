@@ -76,4 +76,24 @@ public class KataTest {
 
         Assertions.assertEquals(2, marsNavigator.getMarsRovers().size());
     }
+
+    @Test
+    public void testNavigatorRoverMovesToTheCoordinate() {
+        String coordinatesString = "5 5\n"
+                + "1 2 N\n"
+                + "LMLMLMLMM\n"
+                + "3 3 E\n"
+                + "MMRMMRMRRM\n";
+        System.setIn(new ByteArrayInputStream(coordinatesString.getBytes()));
+        MarsNavigator marsNavigator = new MarsNavigator(new Scanner(System.in));
+
+        marsNavigator.loadInput();
+        marsNavigator.processInput();
+
+        Assertions.assertEquals(5, marsNavigator.getMarsRovers().get(0).getCoordinate().getX());
+        Assertions.assertEquals(6, marsNavigator.getMarsRovers().get(0).getCoordinate().getY());
+
+        Assertions.assertEquals(5, marsNavigator.getMarsRovers().get(1).getCoordinate().getX());
+        Assertions.assertEquals(1, marsNavigator.getMarsRovers().get(1).getCoordinate().getY());
+    }
 }
