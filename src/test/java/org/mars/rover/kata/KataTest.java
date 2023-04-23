@@ -1,19 +1,12 @@
 package org.mars.rover.kata;
 
-import org.junit.Rule;
-import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.util.Scanner;
 
-import static org.junit.contrib.java.lang.system.TextFromStandardInputStream.emptyStandardInputStream;
-
 public class KataTest {
-    @Rule
-    public final TextFromStandardInputStream systemInMock = emptyStandardInputStream();
-
     @Test
     public void testRoverClassExists() {
         String className = "org.mars.rover.kata.MarsRover";
@@ -33,11 +26,11 @@ public class KataTest {
         MarsRover marsRover = new MarsRover();
 
         marsRover.setDirection(Direction.N);
-        marsRover.setPosition(new Position(0, 1));
+        marsRover.setCoordinate(new Coordinate(0, 1));
 
         Assertions.assertEquals(marsRover.getDirection(), Direction.N);
-        Assertions.assertEquals(marsRover.getPosition().getX(), 0);
-        Assertions.assertEquals(marsRover.getPosition().getY(), 1);
+        Assertions.assertEquals(marsRover.getCoordinate().getX(), 0);
+        Assertions.assertEquals(marsRover.getCoordinate().getY(), 1);
     }
 
     @Test
@@ -54,18 +47,33 @@ public class KataTest {
         }
     }
 
-    // nav class
     @Test
     public void testNavigatorConstructsUpperRightCoordinates() {
-        String coordinates = "5 5";
-        System.setIn(new ByteArrayInputStream(coordinates.getBytes()));
+        String coordinatesString = "5 5";
+        System.setIn(new ByteArrayInputStream(coordinatesString.getBytes()));
         MarsNavigator marsNavigator = new MarsNavigator(new Scanner(System.in));
 
         marsNavigator.loadInput();
+        marsNavigator.processInput();
         Coordinate coordinate = marsNavigator.getCoordinate(1, 3);
 
         Assertions.assertEquals(coordinate.getX(), 1);
         Assertions.assertEquals(coordinate.getY(), 3);
     }
 
+    @Test
+    public void testNavigatorCreatesRoverInstances() {
+        String coordinatesString = "5 5\n"
+                + "1 2 N\n"
+                + "LMLMLMLMM\n"
+                + "3 3 E\n"
+                + "MMRMMRMRRM\n";
+        System.setIn(new ByteArrayInputStream(coordinatesString.getBytes()));
+        MarsNavigator marsNavigator = new MarsNavigator(new Scanner(System.in));
+
+        marsNavigator.loadInput();
+        marsNavigator.processInput();
+
+        Assertions.assertEquals(2, marsNavigator.getMarsRovers().size());
+    }
 }

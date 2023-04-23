@@ -1,16 +1,16 @@
 package org.mars.rover.kata;
 
 public class MarsRover {
-    private Position position;
+    private Coordinate coordinate;
 
     private Direction direction;
 
-    public Position getPosition() {
-        return position;
+    public Coordinate getCoordinate() {
+        return coordinate;
     }
 
-    public void setPosition(Position position) {
-        this.position = position;
+    public void setCoordinate(Coordinate coordinate) {
+        this.coordinate = coordinate;
     }
 
     public Direction getDirection() {

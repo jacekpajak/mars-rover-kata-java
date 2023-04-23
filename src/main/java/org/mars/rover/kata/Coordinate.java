@@ -1,10 +1,11 @@
 package org.mars.rover.kata;
 
-public class Position {
+public class Coordinate {
     private int x;
+
     private int y;
 
-    public Position(int x, int y) {
+    public Coordinate(int x, int y) {
         this.x = x;
         this.y = y;
     }
