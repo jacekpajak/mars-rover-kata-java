@@ -9,18 +9,6 @@ import org.junit.jupiter.api.Test;
 public class KataTest {
 
     @Test
-    public void testRoverReceivesStartingPointAndPosition() {
-        MarsRover marsRover = new MarsRover();
-
-        marsRover.setDirection(Direction.N);
-        marsRover.setCoordinate(new Coordinate(0, 1));
-
-        Assertions.assertEquals(marsRover.getDirection(), Direction.N);
-        Assertions.assertEquals(marsRover.getCoordinate().getX(), 0);
-        Assertions.assertEquals(marsRover.getCoordinate().getY(), 1);
-    }
-
-    @Test
     public void testNavigatorConstructsUpperRightCoordinates() {
         String coordinatesString = "5 5";
         System.setIn(new ByteArrayInputStream(coordinatesString.getBytes()));

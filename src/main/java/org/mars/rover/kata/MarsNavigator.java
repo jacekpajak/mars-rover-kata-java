@@ -1,7 +1,7 @@
 package org.mars.rover.kata;
 
-import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class MarsNavigator {
     Scanner scanner;
@@ -56,12 +56,10 @@ public class MarsNavigator {
                 int positionY = Integer.parseInt(partsRover[1]);
                 // String roverDirection = partsRover[2];
 
-                MarsRover marsRover = new MarsRover();
+                MarsRover marsRover = new MarsRover(grid.get(positionX).get(positionY),
+                        Direction.valueOf(partsRover[2]));
 
-                marsRover.setDirection(Direction.valueOf(partsRover[2]));
-                marsRover.setCoordinate(grid.get(positionX).get(positionY));
-
-                marsRovers.add(new MarsRover());
+                marsRovers.add(marsRover);
                 // providedInput.get(i + 1); todo implement
             } catch (IndexOutOfBoundsException ignored) {
 
