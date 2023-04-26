@@ -1,4 +1,4 @@
-package org.mars.rover.kata;
+package org.mars.rover.kata.commands;
 
 public class UnknownCommand extends RuntimeException {
   public UnknownCommand(char commandChar) {
