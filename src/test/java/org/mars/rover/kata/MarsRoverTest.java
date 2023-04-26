@@ -12,8 +12,8 @@ public class MarsRoverTest {
     var marsRover = new MarsRover(new Coordinate(0, 1), Direction.N);
 
     // then
-    Assertions.assertEquals(marsRover.getDirection(), Direction.N);
-    Assertions.assertEquals(marsRover.getCoordinate().getX(), 0);
-    Assertions.assertEquals(marsRover.getCoordinate().getY(), 1);
+    Assertions.assertEquals(Direction.N, marsRover.getDirection());
+    Assertions.assertEquals(0, marsRover.getCoordinate().x());
+    Assertions.assertEquals(1, marsRover.getCoordinate().y());
   }
 }

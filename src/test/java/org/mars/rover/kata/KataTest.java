@@ -18,17 +18,13 @@ public class KataTest {
         marsNavigator.processInput();
         Coordinate coordinate = marsNavigator.getCoordinate(1, 3);
 
-        Assertions.assertEquals(coordinate.getX(), 1);
-        Assertions.assertEquals(coordinate.getY(), 3);
+        Assertions.assertEquals(coordinate.x(), 1);
+        Assertions.assertEquals(coordinate.y(), 3);
     }
 
     @Test
     public void testNavigatorCreatesRoverInstances() {
-        String coordinatesString = "5 5\n"
-                + "1 2 N\n"
-                + "LMLMLMLMM\n"
-                + "3 3 E\n"
-                + "MMRMMRMRRM\n";
+        String coordinatesString = "5 5\n" + "1 2 N\n" + "LMLMLMLMM\n" + "3 3 E\n" + "MMRMMRMRRM\n";
         System.setIn(new ByteArrayInputStream(coordinatesString.getBytes()));
         MarsNavigator marsNavigator = new MarsNavigator(new Scanner(System.in));
 
@@ -41,21 +37,17 @@ public class KataTest {
     @Test
     @Disabled("Needs work")
     public void testNavigatorRoverMovesToTheCoordinate() {
-        String coordinatesString = "5 5\n"
-                + "1 2 N\n"
-                + "LMLMLMLMM\n"
-                + "3 3 E\n"
-                + "MMRMMRMRRM\n";
+        String coordinatesString = "5 5\n" + "1 2 N\n" + "LMLMLMLMM\n" + "3 3 E\n" + "MMRMMRMRRM\n";
         System.setIn(new ByteArrayInputStream(coordinatesString.getBytes()));
         MarsNavigator marsNavigator = new MarsNavigator(new Scanner(System.in));
 
         marsNavigator.loadInput();
         marsNavigator.processInput();
 
-        Assertions.assertEquals(5, marsNavigator.getMarsRovers().get(0).getCoordinate().getX());
-        Assertions.assertEquals(6, marsNavigator.getMarsRovers().get(0).getCoordinate().getY());
+        Assertions.assertEquals(5, marsNavigator.getMarsRovers().get(0).getCoordinate().x());
+        Assertions.assertEquals(6, marsNavigator.getMarsRovers().get(0).getCoordinate().y());
 
-        Assertions.assertEquals(5, marsNavigator.getMarsRovers().get(1).getCoordinate().getX());
-        Assertions.assertEquals(1, marsNavigator.getMarsRovers().get(1).getCoordinate().getY());
+        Assertions.assertEquals(5, marsNavigator.getMarsRovers().get(1).getCoordinate().x());
+        Assertions.assertEquals(1, marsNavigator.getMarsRovers().get(1).getCoordinate().y());
     }
 }

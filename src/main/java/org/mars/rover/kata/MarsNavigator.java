@@ -54,11 +54,12 @@ public class MarsNavigator {
                 String[] partsRover = providedInput.get(i).split(" ");
                 int positionX = Integer.parseInt(partsRover[0]);
                 int positionY = Integer.parseInt(partsRover[1]);
-                // String roverDirection = partsRover[2];
 
-                MarsRover marsRover = new MarsRover(grid.get(positionX).get(positionY),
+                MarsRover marsRover = new MarsRover(new Coordinate(positionX, positionY),
                         Direction.valueOf(partsRover[2]));
 
+                // TODO: Fix
+                // marsRovers.add(new MarsRover());
                 marsRovers.add(marsRover);
                 // providedInput.get(i + 1); todo implement
             } catch (IndexOutOfBoundsException ignored) {
