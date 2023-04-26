@@ -26,22 +26,22 @@ public class MarsNavigator {
     }
 
     public void processInput() {
-        this.constructCoordinates();
+        this.createGrid();
         this.constructRovers();
     }
 
-    protected void constructCoordinates() {
+    protected void createGrid() {
         // get first input so we can construct the coordinates
         String[] parts = this.providedInput.get(0).split(" ");
 
-        int x = Integer.parseInt(parts[0]);
-        int y = Integer.parseInt(parts[1]);
+        int width = Integer.parseInt(parts[0]);
+        int height = Integer.parseInt(parts[1]);
 
-        for (int i = 0; i < x; i++) {
+        for (int i = 0; i < width; i++) {
             ArrayList<Coordinate> row = new ArrayList<>();
 
-            for (int z = 0; z < y; z++) {
-                row.add(new Coordinate(i, z));
+            for (int j = 0; j < height; j++) {
+                row.add(new Coordinate(i, j));
             }
 
             grid.add(row);
