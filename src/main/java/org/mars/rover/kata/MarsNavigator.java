@@ -55,8 +55,8 @@ public class MarsNavigator {
                 int positionX = Integer.parseInt(partsRover[0]);
                 int positionY = Integer.parseInt(partsRover[1]);
 
-                MarsRover marsRover = new MarsRover(new Coordinate(positionX, positionY),
-                        Direction.valueOf(partsRover[2]));
+                MarsRover marsRover = new MarsRover(
+                    positionX, positionY, Direction.valueOf(partsRover[2]));
 
                 // TODO: Fix
                 // marsRovers.add(new MarsRover());

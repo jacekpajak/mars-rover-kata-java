@@ -1,13 +1,13 @@
 package org.mars.rover.kata;
 
-import lombok.RequiredArgsConstructor;
 import lombok.Getter;
 
 
-@RequiredArgsConstructor
 @Getter
 public class MarsRover {
-    private final Coordinate coordinate;
+    private final Position position;
 
-    private final Direction direction;
+    public MarsRover(final int x, final int y, final Direction direction) {
+        this.position = new Position(x, y, direction);
+    }
 }

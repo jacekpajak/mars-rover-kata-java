@@ -44,10 +44,10 @@ public class KataTest {
         marsNavigator.loadInput();
         marsNavigator.processInput();
 
-        Assertions.assertEquals(5, marsNavigator.getMarsRovers().get(0).getCoordinate().x());
-        Assertions.assertEquals(6, marsNavigator.getMarsRovers().get(0).getCoordinate().y());
+        Assertions.assertEquals(5, marsNavigator.getMarsRovers().get(0).getPosition().x());
+        Assertions.assertEquals(6, marsNavigator.getMarsRovers().get(0).getPosition().y());
 
-        Assertions.assertEquals(5, marsNavigator.getMarsRovers().get(1).getCoordinate().x());
-        Assertions.assertEquals(1, marsNavigator.getMarsRovers().get(1).getCoordinate().y());
+        Assertions.assertEquals(5, marsNavigator.getMarsRovers().get(1).getPosition().x());
+        Assertions.assertEquals(1, marsNavigator.getMarsRovers().get(1).getPosition().y());
     }
 }

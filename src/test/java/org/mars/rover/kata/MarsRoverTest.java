@@ -8,15 +8,11 @@ public class MarsRoverTest {
 
   @Test
   public void roverHasAStartingPositionAndDirectionItFaces() {
-    // given
-    var startingPosition = new Coordinate(0, 1);
-    var startingDirection = Direction.N;
-
     // when
-    var marsRover = new MarsRover(startingPosition, startingDirection);
+    var marsRover = new MarsRover(0, 1, Direction.N);
 
     // then
-    assertThat(marsRover.getCoordinate()).isEqualTo(startingPosition);
-    assertThat(marsRover.getDirection()).isEqualTo(startingDirection);
+    assertThat(marsRover.getPosition())
+      .isEqualTo(new Position(0, 1, Direction.N));
   }
 }
