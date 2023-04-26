@@ -1,26 +1,12 @@
 package org.mars.rover.kata;
 
+import java.io.ByteArrayInputStream;
+import java.util.Scanner;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayInputStream;
-import java.util.Scanner;
-
 public class KataTest {
-    @Test
-    public void testRoverClassExists() {
-        String className = "org.mars.rover.kata.MarsRover";
-
-        try {
-            Class<?> myClass = Class.forName(className);
-            Assertions.assertNotNull(myClass);
-            Assertions.assertEquals(className, myClass.getName());
-            System.out.println("Class " + className + " exists.");
-        } catch (ClassNotFoundException e) {
-            Assertions.fail("Class " + className + " does not exist.");
-        }
-    }
 
     @Test
     public void testRoverReceivesStartingPointAndPosition() {
@@ -32,20 +18,6 @@ public class KataTest {
         Assertions.assertEquals(marsRover.getDirection(), Direction.N);
         Assertions.assertEquals(marsRover.getCoordinate().getX(), 0);
         Assertions.assertEquals(marsRover.getCoordinate().getY(), 1);
-    }
-
-    @Test
-    public void testNavigatorClassExists() {
-        String className = "org.mars.rover.kata.MarsNavigator";
-
-        try {
-            Class<?> myClass = Class.forName(className);
-            Assertions.assertNotNull(myClass);
-            Assertions.assertEquals(className, myClass.getName());
-            System.out.println("Class " + className + " exists.");
-        } catch (ClassNotFoundException e) {
-            Assertions.fail("Class " + className + " does not exist.");
-        }
     }
 
     @Test
