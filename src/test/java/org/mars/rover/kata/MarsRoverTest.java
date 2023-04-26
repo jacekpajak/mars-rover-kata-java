@@ -1,6 +1,6 @@
 package org.mars.rover.kata;
 
-import org.junit.jupiter.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 
 
@@ -8,12 +8,15 @@ public class MarsRoverTest {
 
   @Test
   public void roverHasAStartingPositionAndDirectionItFaces() {
+    // given
+    var startingPosition = new Coordinate(0, 1);
+    var startingDirection = Direction.N;
+
     // when
-    var marsRover = new MarsRover(new Coordinate(0, 1), Direction.N);
+    var marsRover = new MarsRover(startingPosition, startingDirection);
 
     // then
-    Assertions.assertEquals(Direction.N, marsRover.getDirection());
-    Assertions.assertEquals(0, marsRover.getCoordinate().x());
-    Assertions.assertEquals(1, marsRover.getCoordinate().y());
+    assertThat(marsRover.getCoordinate()).isEqualTo(startingPosition);
+    assertThat(marsRover.getDirection()).isEqualTo(startingDirection);
   }
 }
