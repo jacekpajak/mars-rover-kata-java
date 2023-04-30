@@ -1,23 +1,13 @@
 package org.mars.rover.kata;
 
+import lombok.Getter;
+
+
+@Getter
 public class MarsRover {
-    private Coordinate coordinate;
+    private final Position position;
 
-    private Direction direction;
-
-    public Coordinate getCoordinate() {
-        return coordinate;
-    }
-
-    public void setCoordinate(Coordinate coordinate) {
-        this.coordinate = coordinate;
-    }
-
-    public Direction getDirection() {
-        return direction;
-    }
-
-    public void setDirection(Direction direction) {
-        this.direction = direction;
+    public MarsRover(final int x, final int y, final Direction direction) {
+        this.position = new Position(x, y, direction);
     }
 }

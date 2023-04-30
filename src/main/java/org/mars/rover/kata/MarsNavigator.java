@@ -1,7 +1,7 @@
 package org.mars.rover.kata;
 
-import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class MarsNavigator {
     Scanner scanner;
@@ -26,22 +26,22 @@ public class MarsNavigator {
     }
 
     public void processInput() {
-        this.constructCoordinates();
+        this.createGrid();
         this.constructRovers();
     }
 
-    protected void constructCoordinates() {
+    protected void createGrid() {
         // get first input so we can construct the coordinates
         String[] parts = this.providedInput.get(0).split(" ");
 
-        int x = Integer.parseInt(parts[0]);
-        int y = Integer.parseInt(parts[1]);
+        int width = Integer.parseInt(parts[0]);
+        int height = Integer.parseInt(parts[1]);
 
-        for (int i = 0; i < x; i++) {
+        for (int i = 0; i < width; i++) {
             ArrayList<Coordinate> row = new ArrayList<>();
 
-            for (int z = 0; z < y; z++) {
-                row.add(new Coordinate(i, z));
+            for (int j = 0; j < height; j++) {
+                row.add(new Coordinate(i, j));
             }
 
             grid.add(row);
@@ -54,14 +54,13 @@ public class MarsNavigator {
                 String[] partsRover = providedInput.get(i).split(" ");
                 int positionX = Integer.parseInt(partsRover[0]);
                 int positionY = Integer.parseInt(partsRover[1]);
-                // String roverDirection = partsRover[2];
 
-                MarsRover marsRover = new MarsRover();
+                MarsRover marsRover = new MarsRover(
+                    positionX, positionY, Direction.valueOf(partsRover[2]));
 
-                marsRover.setDirection(Direction.valueOf(partsRover[2]));
-                marsRover.setCoordinate(grid.get(positionX).get(positionY));
-
-                marsRovers.add(new MarsRover());
+                // TODO: Fix
+                // marsRovers.add(new MarsRover());
+                marsRovers.add(marsRover);
                 // providedInput.get(i + 1); todo implement
             } catch (IndexOutOfBoundsException ignored) {
 
