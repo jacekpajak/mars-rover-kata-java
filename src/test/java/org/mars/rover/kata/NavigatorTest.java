@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-public class KataTest {
+public class NavigatorTest {
 
     @Test
-    public void testNavigatorConstructsUpperRightCoordinates() {
+    public void navigatorConstructsUpperRightCoordinates() {
         String coordinatesString = "5 5";
         System.setIn(new ByteArrayInputStream(coordinatesString.getBytes()));
         MarsNavigator marsNavigator = new MarsNavigator(new Scanner(System.in));
@@ -23,7 +23,7 @@ public class KataTest {
     }
 
     @Test
-    public void testNavigatorCreatesRoverInstances() {
+    public void navigatorCreatesRoverInstances() {
         String coordinatesString = "5 5\n" + "1 2 N\n" + "LMLMLMLMM\n" + "3 3 E\n" + "MMRMMRMRRM\n";
         System.setIn(new ByteArrayInputStream(coordinatesString.getBytes()));
         MarsNavigator marsNavigator = new MarsNavigator(new Scanner(System.in));
@@ -36,7 +36,7 @@ public class KataTest {
 
     @Test
     @Disabled("Needs work")
-    public void testNavigatorRoverMovesToTheCoordinate() {
+    public void navigatorRoverMovesToTheCoordinate() {
         String coordinatesString = "5 5\n" + "1 2 N\n" + "LMLMLMLMM\n" + "3 3 E\n" + "MMRMMRMRRM\n";
         System.setIn(new ByteArrayInputStream(coordinatesString.getBytes()));
         MarsNavigator marsNavigator = new MarsNavigator(new Scanner(System.in));
