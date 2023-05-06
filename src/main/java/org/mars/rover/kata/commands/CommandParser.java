@@ -7,8 +7,10 @@ import java.util.function.Supplier;
 
 public class CommandParser {
 
-  private Map<Character, Supplier<Command>> recognizedCommands = Map.of(
-    'L', () -> new TurnLeft()
+  private final Map<Character, Supplier<Command>> recognizedCommands = Map.of(
+    'L', TurnLeft::new,
+    'M', MoveForward::new,
+    'R', TurnRight::new
   );
 
   public Command parse(char input) {
