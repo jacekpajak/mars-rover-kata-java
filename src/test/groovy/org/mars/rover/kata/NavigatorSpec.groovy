@@ -1,18 +1,20 @@
 package org.mars.rover.kata
 
+import org.mars.rover.kata.commands.CommandParser
+import org.mars.rover.kata.entrydata.StdinProcessor
 import spock.lang.Specification
 
 class NavigatorSpec extends Specification {
 
-    def "navigator constructs upper right coordinates"() {
+    def "navigator receives parsed input and constructs coordinates"() {
         given:
         def coordinatesString = "5 5"
         System.setIn(new ByteArrayInputStream(coordinatesString.getBytes()))
-        def marsNavigator = new MarsNavigator(new Scanner(System.in))
+        def commandSet = new StdinProcessor(new CommandParser()).processInput(new Scanner(System.in));
+        def marsNavigator = new MarsNavigator(commandSet)
 
         when:
-        marsNavigator.loadInput()
-        marsNavigator.processInput()
+        marsNavigator.processCommandSet()
         def coordinate = marsNavigator.getCoordinate(1, 3)
 
         then:
@@ -24,11 +26,11 @@ class NavigatorSpec extends Specification {
         given:
         def coordinatesString = "5 5\n" + "1 2 N\n" + "LMLMLMLMM\n" + "3 3 E\n" + "MMRMMRMRRM\n"
         System.setIn(new ByteArrayInputStream(coordinatesString.getBytes()))
+        def commandSet = new StdinProcessor(new CommandParser()).processInput(new Scanner(System.in));
         def marsNavigator = new MarsNavigator(new Scanner(System.in))
 
         when:
-        marsNavigator.loadInput()
-        marsNavigator.processInput()
+        marsNavigator.processCommandSet()
 
         then:
         marsNavigator.getMarsRovers().size() == 2
