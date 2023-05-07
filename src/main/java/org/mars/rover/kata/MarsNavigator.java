@@ -1,41 +1,32 @@
 package org.mars.rover.kata;
 
+import org.mars.rover.kata.entrydata.CommandSet;
+import org.mars.rover.kata.entrydata.RoverInstructions;
+
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class MarsNavigator {
-    Scanner scanner;
-    ArrayList<String> providedInput;
+    CommandSet providedInput;
 
     ArrayList<ArrayList<Coordinate>> grid;
 
     ArrayList<MarsRover> marsRovers;
 
-    public MarsNavigator(Scanner scanner) {
-        this.scanner = scanner;
-        this.providedInput = new ArrayList<>();
+    public MarsNavigator(CommandSet providedInput) {
+        this.providedInput = providedInput;
         this.grid = new ArrayList<>();
         this.marsRovers = new ArrayList<>();
     }
 
-    public void loadInput() {
-        // get the input from the scanner
-        while (this.scanner.hasNext()) {
-            this.providedInput.add(this.scanner.nextLine());
-        }
-    }
 
-    public void processInput() {
+    public void processCommandSet() {
         this.createGrid();
         this.constructRovers();
     }
 
     protected void createGrid() {
-        // get first input so we can construct the coordinates
-        String[] parts = this.providedInput.get(0).split(" ");
-
-        int width = Integer.parseInt(parts[0]);
-        int height = Integer.parseInt(parts[1]);
+        int width = this.providedInput.gridX();
+        int height = this.providedInput.gridY();
 
         for (int i = 0; i < width; i++) {
             ArrayList<Coordinate> row = new ArrayList<>();
@@ -49,23 +40,17 @@ public class MarsNavigator {
     }
 
     public void constructRovers() {
-        for (int i = 1; i < providedInput.size(); i += 2) {
-            try {
-                String[] partsRover = providedInput.get(i).split(" ");
-                int positionX = Integer.parseInt(partsRover[0]);
-                int positionY = Integer.parseInt(partsRover[1]);
+        providedInput.roverInstructions().forEach((RoverInstructions instructions) -> {
+            var initialPosition = instructions.initialPosition();
 
-                MarsRover marsRover = new MarsRover(
-                    positionX, positionY, Direction.valueOf(partsRover[2]));
+            MarsRover marsRover = new MarsRover(
+                    initialPosition.x(),
+                    initialPosition.y(),
+                    initialPosition.direction()
+            );
 
-                // TODO: Fix
-                // marsRovers.add(new MarsRover());
-                marsRovers.add(marsRover);
-                // providedInput.get(i + 1); todo implement
-            } catch (IndexOutOfBoundsException ignored) {
-
-            }
-        }
+            this.marsRovers.add(marsRover);
+        });
     }
 
     public ArrayList<MarsRover> getMarsRovers() {
