@@ -1,5 +1,6 @@
 package org.mars.rover.kata.entrydata;
 
+import lombok.AllArgsConstructor;
 import org.mars.rover.kata.Direction;
 import org.mars.rover.kata.Position;
 import org.mars.rover.kata.commands.CommandParser;
@@ -9,13 +10,9 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Scanner;
 
-public class StdinProcessor implements InputProcessorInterface {
+@AllArgsConstructor()
+public class StdinProcessor implements InputProcessor {
     CommandParser commandParser;
-
-    public StdinProcessor(CommandParser commandParser) {
-        this.commandParser = commandParser;
-    }
-
 
     public CommandSet processInput(Iterator<String> stringIterator) {
         // get first input so we can construct the coordinates

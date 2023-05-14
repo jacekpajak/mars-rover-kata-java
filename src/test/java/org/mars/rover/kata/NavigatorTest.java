@@ -24,8 +24,8 @@ public class NavigatorTest {
         Coordinate coordinate = marsNavigator.getCoordinate(1, 3);
 
         // expect
-        Assertions.assertEquals(coordinate.x(), 1);
-        Assertions.assertEquals(coordinate.y(), 3);
+        Assertions.assertEquals(1, coordinate.x());
+        Assertions.assertEquals(3, coordinate.y());
     }
 
     @Test
