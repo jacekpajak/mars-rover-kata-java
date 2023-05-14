@@ -10,10 +10,10 @@ class StdinProcessorSpec extends Specification {
         given:
         String coordinatesString = "5 5\n" + "1 2 N\n" + "LMLMLMLMM\n" + "3 3 E\n" + "MMRMMRMRRM\n"
         System.setIn(new ByteArrayInputStream(coordinatesString.getBytes()))
-        def stringInputProcessor = new StdinProcessor(new CommandParser())
+        def stringInputProcessor = new StdinProcessor(new CommandParser(), new Scanner(System.in))
 
         when:
-        def commandSet = stringInputProcessor.processInput(new Scanner(System.in))
+        def commandSet = stringInputProcessor.processInput()
 
         then:
         commandSet.gridX() == 5
@@ -25,8 +25,8 @@ class StdinProcessorSpec extends Specification {
         given:
         String coordinatesString = "5 5\n" + "1 2 N\n" + "LMLMLMLMM\n" + "3 3 E\n" + "MMRMMRMRRM\n"
         System.setIn(new ByteArrayInputStream(coordinatesString.getBytes()))
-        def stringInputProcessor = new StdinProcessor(new CommandParser())
-        def commandSet = stringInputProcessor.processInput(new Scanner(System.in))
+        def stringInputProcessor = new StdinProcessor(new CommandParser(), new Scanner(System.in))
+        def commandSet = stringInputProcessor.processInput()
 
         expect:
         commandSet.roverInstructions().size() == 2

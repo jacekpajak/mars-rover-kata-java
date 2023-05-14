@@ -6,47 +6,60 @@ import org.mars.rover.kata.commands.CommandParser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 
 public class StdinProcessor implements InputProcessorInterface {
     CommandParser commandParser;
+    ArrayList<String> collectedInput;
 
-    public StdinProcessor(CommandParser commandParser) {
+    public StdinProcessor(CommandParser commandParser, Scanner inputProvider) {
         this.commandParser = commandParser;
+        this.collectedInput = this.collectInput(inputProvider);
     }
 
 
-    public CommandSet processInput(Iterator<String> stringIterator) {
-        // get first input so we can construct the coordinates
+    public CommandSet processInput() {
+        var parts = this.parseGridParameter();
+        var roverInstructionsArrayList = this.parseRoverInstructions();
+
+        return new CommandSet(parts.get(0), parts.get(1), roverInstructionsArrayList);
+    }
+
+    protected ArrayList<String> collectInput(Scanner inputProvider) {
         var collectedInput = new ArrayList<String>();
 
-        while (stringIterator.hasNext()) {
-            collectedInput.add(((Scanner) stringIterator).nextLine());
+        while (inputProvider.hasNext()) {
+            collectedInput.add(inputProvider.nextLine());
         }
 
-        String[] parts = collectedInput.get(0).split(" ");
+        return collectedInput;
+    }
 
-        var gridX = Integer.parseInt(parts[0]);
-        var gridY = Integer.parseInt(parts[1]);
+    protected List<Integer> parseGridParameter() {
+        return Arrays.stream(this.collectedInput.get(0).split(" "))
+                .map(Integer::parseInt)
+                .toList();
+    }
+
+    protected ArrayList<RoverInstructions> parseRoverInstructions() {
         var roverInstructionsArrayList = new ArrayList<RoverInstructions>();
 
-        for (int i = 1; i < collectedInput.size(); i += 2) {
-            String[] partsRover = collectedInput.get(i).split(" ");
+        for (int i = 1; i < this.collectedInput.size(); i += 2) {
+            String[] partsRover = this.collectedInput.get(i).split(" ");
             var roverPositionX = Integer.parseInt(partsRover[0]);
             var roverPositionY = Integer.parseInt(partsRover[1]);
 
             roverInstructionsArrayList.add(
                     new RoverInstructions(
                             new Position(roverPositionX, roverPositionY, Direction.valueOf(partsRover[2])),
-                            Arrays.stream(collectedInput.get(i + 1).split("")).map(
+                            Arrays.stream(this.collectedInput.get(i + 1).split("")).map(
                                     el -> this.commandParser.parse(el.charAt(0))
                             ).toList()
                     )
             );
-
         }
 
-        return new CommandSet(gridX, gridY, roverInstructionsArrayList);
+        return roverInstructionsArrayList;
     }
 }

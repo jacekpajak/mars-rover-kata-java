@@ -10,7 +10,7 @@ class NavigatorSpec extends Specification {
         given:
         def coordinatesString = "5 5"
         System.setIn(new ByteArrayInputStream(coordinatesString.getBytes()))
-        def commandSet = new StdinProcessor(new CommandParser()).processInput(new Scanner(System.in));
+        def commandSet = new StdinProcessor(new CommandParser(), new Scanner(System.in)).processInput();
         def marsNavigator = new MarsNavigator(commandSet)
 
         when:
@@ -26,7 +26,7 @@ class NavigatorSpec extends Specification {
         given:
         def coordinatesString = "5 5\n" + "1 2 N\n" + "LMLMLMLMM\n" + "3 3 E\n" + "MMRMMRMRRM\n"
         System.setIn(new ByteArrayInputStream(coordinatesString.getBytes()))
-        def commandSet = new StdinProcessor(new CommandParser()).processInput(new Scanner(System.in));
+        def commandSet = new StdinProcessor(new CommandParser(), new Scanner(System.in)).processInput();
         def marsNavigator = new MarsNavigator(commandSet)
 
         when:
