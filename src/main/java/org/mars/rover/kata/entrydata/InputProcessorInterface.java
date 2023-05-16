@@ -3,5 +3,5 @@ package org.mars.rover.kata.entrydata;
 import java.util.Iterator;
 
 public interface InputProcessorInterface {
-    CommandSet processInput(Iterator<String> stringIterator);
+    CommandSet processInput();
 }
