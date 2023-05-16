@@ -4,13 +4,14 @@ import org.mars.rover.kata.entrydata.CommandSet;
 import org.mars.rover.kata.entrydata.RoverInstructions;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MarsNavigator {
     CommandSet providedInput;
 
     ArrayList<ArrayList<Coordinate>> grid;
 
-    ArrayList<MarsRover> marsRovers;
+    List<MarsRover> marsRovers;
 
     public MarsNavigator(CommandSet providedInput) {
         this.providedInput = providedInput;
@@ -21,7 +22,7 @@ public class MarsNavigator {
 
     public void processCommandSet() {
         this.createGrid();
-        this.constructRovers();
+        this.marsRovers = this.constructRovers(this.providedInput.roverInstructions()); // todo write test
     }
 
     protected void createGrid() {
@@ -39,21 +40,18 @@ public class MarsNavigator {
         }
     }
 
-    public void constructRovers() {
-        providedInput.roverInstructions().forEach((RoverInstructions instructions) -> {
-            var initialPosition = instructions.initialPosition();
-
-            MarsRover marsRover = new MarsRover(
-                    initialPosition.x(),
-                    initialPosition.y(),
-                    initialPosition.direction()
-            );
-
-            this.marsRovers.add(marsRover);
-        });
+    public List<MarsRover> constructRovers(List<RoverInstructions> roverInstructions) {
+        return roverInstructions.stream()
+                .map(RoverInstructions::initialPosition)
+                .map(initialPosition -> new MarsRover(
+                        initialPosition.x(),
+                        initialPosition.y(),
+                        initialPosition.direction()
+                ))
+                .toList();
     }
 
-    public ArrayList<MarsRover> getMarsRovers() {
+    public List<MarsRover> getMarsRovers() {
         return marsRovers;
     }
 
