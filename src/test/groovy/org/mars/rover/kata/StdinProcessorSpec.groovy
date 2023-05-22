@@ -10,23 +10,25 @@ class StdinProcessorSpec extends Specification {
         given:
         String coordinatesString = "5 5\n" + "1 2 N\n" + "LMLMLMLMM\n" + "3 3 E\n" + "MMRMMRMRRM\n"
         System.setIn(new ByteArrayInputStream(coordinatesString.getBytes()))
-        def stringInputProcessor = new StdinProcessor(new CommandParser(), new Scanner(System.in))
+        def stringInputProcessor = new StdinProcessor(new CommandParser())
 
         when:
-        def commandSet = stringInputProcessor.processInput()
+        def commandSet = stringInputProcessor.processInput(new Scanner(System.in))
 
         then:
-        commandSet.gridX() == 5
-        commandSet.gridY() == 5
-        commandSet.roverInstructions().size() == 2
+        with(commandSet) {
+            gridX() == 5
+            gridY() == 5
+            roverInstructions().size() == 2
+        }
     }
 
     def "transforms string input to a set of commands"() {
         given:
         String coordinatesString = "5 5\n" + "1 2 N\n" + "LMLMLMLMM\n" + "3 3 E\n" + "MMRMMRMRRM\n"
         System.setIn(new ByteArrayInputStream(coordinatesString.getBytes()))
-        def stringInputProcessor = new StdinProcessor(new CommandParser(), new Scanner(System.in))
-        def commandSet = stringInputProcessor.processInput()
+        def stringInputProcessor = new StdinProcessor(new CommandParser())
+        def commandSet = stringInputProcessor.processInput(new Scanner(System.in)   )
 
         expect:
         commandSet.roverInstructions().size() == 2

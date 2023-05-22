@@ -11,19 +11,19 @@ import java.util.Scanner;
 
 public class StdinProcessor implements InputProcessorInterface {
     CommandParser commandParser;
-    ArrayList<String> collectedInput;
 
-    public StdinProcessor(CommandParser commandParser, Scanner inputProvider) {
+    public StdinProcessor(CommandParser commandParser) {
         this.commandParser = commandParser;
-        this.collectedInput = this.collectInput(inputProvider);
     }
 
 
-    public CommandSet processInput() {
-        var parts = this.parseGridParameter();
-        var roverInstructionsArrayList = this.parseRoverInstructions();
+    public CommandSet processInput(Scanner inputProvider) {
+        var collectedInput = this.collectInput(inputProvider);
 
-        return new CommandSet(parts.get(0), parts.get(1), roverInstructionsArrayList);
+        var gridXAndY = this.parseXAndYParametersFromStringInput(collectedInput.get(0));
+        var roverInstructionsArrayList = this.parseRoverInstructions(collectedInput);
+
+        return new CommandSet(gridXAndY.get(0), gridXAndY.get(1), roverInstructionsArrayList);
     }
 
     protected ArrayList<String> collectInput(Scanner inputProvider) {
@@ -36,24 +36,24 @@ public class StdinProcessor implements InputProcessorInterface {
         return collectedInput;
     }
 
-    protected List<Integer> parseGridParameter() {
-        return Arrays.stream(this.collectedInput.get(0).split(" "))
+    protected List<Integer> parseXAndYParametersFromStringInput(String xAndYParameters) {
+        return Arrays.stream(xAndYParameters.split(" "))
                 .map(Integer::parseInt)
                 .toList();
     }
 
-    protected ArrayList<RoverInstructions> parseRoverInstructions() {
+    protected ArrayList<RoverInstructions> parseRoverInstructions(ArrayList<String> collectedInput) {
         var roverInstructionsArrayList = new ArrayList<RoverInstructions>();
 
-        for (int i = 1; i < this.collectedInput.size(); i += 2) {
-            String[] partsRover = this.collectedInput.get(i).split(" ");
+        for (int i = 1; i < collectedInput.size(); i += 2) {
+            String[] partsRover = collectedInput.get(i).split(" ");
             var roverPositionX = Integer.parseInt(partsRover[0]);
             var roverPositionY = Integer.parseInt(partsRover[1]);
 
             roverInstructionsArrayList.add(
                     new RoverInstructions(
                             new Position(roverPositionX, roverPositionY, Direction.valueOf(partsRover[2])),
-                            Arrays.stream(this.collectedInput.get(i + 1).split("")).map(
+                            Arrays.stream(collectedInput.get(i + 1).split("")).map(
                                     el -> this.commandParser.parse(el.charAt(0))
                             ).toList()
                     )

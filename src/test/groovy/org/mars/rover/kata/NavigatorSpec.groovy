@@ -6,12 +6,9 @@ import spock.lang.Specification
 
 class NavigatorSpec extends Specification {
 
-    def "navigator receives parsed input and constructs coordinates"() {
+    def "navigator parses stdin input to coordinate"() {
         given:
-        def coordinatesString = "5 5"
-        System.setIn(new ByteArrayInputStream(coordinatesString.getBytes()))
-        def commandSet = new StdinProcessor(new CommandParser(), new Scanner(System.in)).processInput();
-        def marsNavigator = new MarsNavigator(commandSet)
+        def marsNavigator = MarsNavigator.fromString("5 5")
 
         when:
         marsNavigator.processCommandSet()
@@ -24,10 +21,9 @@ class NavigatorSpec extends Specification {
 
     def "navigator creates rover instances"() {
         given:
-        def coordinatesString = "5 5\n" + "1 2 N\n" + "LMLMLMLMM\n" + "3 3 E\n" + "MMRMMRMRRM\n"
-        System.setIn(new ByteArrayInputStream(coordinatesString.getBytes()))
-        def commandSet = new StdinProcessor(new CommandParser(), new Scanner(System.in)).processInput();
-        def marsNavigator = new MarsNavigator(commandSet)
+        def marsNavigator = MarsNavigator.fromString(
+                "5 5\n" + "1 2 N\n" + "LMLMLMLMM\n" + "3 3 E\n" + "MMRMMRMRRM\n"
+        )
 
         when:
         marsNavigator.processCommandSet()

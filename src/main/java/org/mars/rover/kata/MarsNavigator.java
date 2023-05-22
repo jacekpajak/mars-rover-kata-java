@@ -1,10 +1,14 @@
 package org.mars.rover.kata;
 
+import org.mars.rover.kata.commands.CommandParser;
 import org.mars.rover.kata.entrydata.CommandSet;
 import org.mars.rover.kata.entrydata.RoverInstructions;
+import org.mars.rover.kata.entrydata.StdinProcessor;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class MarsNavigator {
     CommandSet providedInput;
@@ -49,6 +53,14 @@ public class MarsNavigator {
                         initialPosition.direction()
                 ))
                 .toList();
+    }
+
+    public static MarsNavigator fromString(String inputString) {
+        var commandSet = new StdinProcessor(new CommandParser()).processInput(new Scanner(
+                new ByteArrayInputStream(inputString.getBytes())
+        ));
+
+        return new MarsNavigator(commandSet);
     }
 
     public List<MarsRover> getMarsRovers() {
