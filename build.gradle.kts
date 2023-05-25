@@ -1,5 +1,6 @@
 plugins { 
     id("java")
+    id("groovy")
 }
 
 group = "org.mars.rover.kata"
@@ -20,6 +21,8 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.junit.jupiter:junit-jupiter-params")
     testImplementation("org.assertj:assertj-core:3.24.2") // Fluent assertions
+    testImplementation("org.spockframework:spock-core:2.4-M1-groovy-4.0")
+
 }
 
 tasks.test { 

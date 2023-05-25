@@ -5,28 +5,38 @@ import org.mars.rover.kata.Direction;
 import org.mars.rover.kata.Position;
 import org.mars.rover.kata.commands.CommandParser;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Scanner;
+import java.util.*;
 
-@AllArgsConstructor()
 public class StdinProcessor implements InputProcessor {
-    CommandParser commandParser;
+    public CommandSet processInput(String input) {
+        var collectedInput = this.collectInput(input);
 
-    public CommandSet processInput(Iterator<String> stringIterator) {
-        // get first input so we can construct the coordinates
+        var gridXAndY = this.parseInitRoverPosition(collectedInput.get(0));
+        var roverInstructionsArrayList = this.parseRoverInstructions(collectedInput);
+
+        return new CommandSet(gridXAndY.get(0), gridXAndY.get(1), roverInstructionsArrayList);
+    }
+
+    protected ArrayList<String> collectInput(String input) {
         var collectedInput = new ArrayList<String>();
+        var tokenizer = new StringTokenizer(input, "\n");
 
-        while (stringIterator.hasNext()) {
-            collectedInput.add(((Scanner) stringIterator).nextLine());
+        while (tokenizer.hasMoreTokens()) {
+            collectedInput.add(tokenizer.nextToken());
         }
 
-        String[] parts = collectedInput.get(0).split(" ");
+        return collectedInput;
+    }
 
-        var gridX = Integer.parseInt(parts[0]);
-        var gridY = Integer.parseInt(parts[1]);
+    protected List<Integer> parseInitRoverPosition(String xAndYParameters) {
+        return Arrays.stream(xAndYParameters.split(" "))
+                .map(Integer::parseInt)
+                .toList();
+    }
+
+    protected ArrayList<RoverInstructions> parseRoverInstructions(ArrayList<String> collectedInput) {
         var roverInstructionsArrayList = new ArrayList<RoverInstructions>();
+        var commandParser = new CommandParser();
 
         for (int i = 1; i < collectedInput.size(); i += 2) {
             String[] partsRover = collectedInput.get(i).split(" ");
@@ -37,13 +47,12 @@ public class StdinProcessor implements InputProcessor {
                     new RoverInstructions(
                             new Position(roverPositionX, roverPositionY, Direction.valueOf(partsRover[2])),
                             Arrays.stream(collectedInput.get(i + 1).split("")).map(
-                                    el -> this.commandParser.parse(el.charAt(0))
+                                    el -> commandParser.parse(el.charAt(0))
                             ).toList()
                     )
             );
-
         }
 
-        return new CommandSet(gridX, gridY, roverInstructionsArrayList);
+        return roverInstructionsArrayList;
     }
 }
