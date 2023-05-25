@@ -56,9 +56,7 @@ public class MarsNavigator {
     }
 
     public static MarsNavigator fromString(String inputString) {
-        var commandSet = new StdinProcessor(new CommandParser()).processInput(new Scanner(
-                new ByteArrayInputStream(inputString.getBytes())
-        ));
+        var commandSet = new StdinProcessor().processInput(inputString);
 
         return new MarsNavigator(commandSet);
     }

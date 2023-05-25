@@ -1,7 +1,5 @@
 package org.mars.rover.kata
 
-import org.mars.rover.kata.commands.CommandParser
-import org.mars.rover.kata.entrydata.StdinProcessor
 import spock.lang.Specification
 
 class NavigatorSpec extends Specification {
