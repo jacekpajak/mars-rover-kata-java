@@ -26,7 +26,7 @@ public class MarsNavigator {
 
     public void processCommandSet() {
         this.createGrid();
-        this.marsRovers = this.constructRovers(this.providedInput.roverInstructions()); // todo write test
+        this.marsRovers = this.constructRovers(this.providedInput.roverInstructions());
     }
 
     protected void createGrid() {

@@ -1,10 +1,8 @@
 package org.mars.rover.kata.entrydata;
 
-import lombok.AllArgsConstructor;
 import org.mars.rover.kata.Direction;
 import org.mars.rover.kata.Position;
 import org.mars.rover.kata.commands.CommandParser;
-
 import java.util.*;
 
 public class StdinProcessor implements InputProcessor {
