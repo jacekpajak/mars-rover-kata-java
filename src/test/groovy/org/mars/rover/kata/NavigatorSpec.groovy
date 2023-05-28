@@ -46,34 +46,15 @@ class NavigatorSpec extends Specification {
 
         then:
         with (firstRover) {
-            x() == 3
-            y() == 1
+            coordinate().x() == 1
+            coordinate().y() == 3
             direction() == Direction.N
         }
 
         with (secondRover) {
-            x() == 5
-            y() == 1
+            coordinate().x() == 5
+            coordinate().y() == 1
             direction() == Direction.E
         }
     }
-
-    /*@IgnoreRest() todo refactor or delete
-    def "navigator rover moves to the coordinate"() {
-        given:
-        def coordinatesString = "5 5\n" + "1 2 N\n" + "LMLMLMLMM\n" + "3 3 E\n" + "MMRMMRMRRM\n"
-        System.setIn(new ByteArrayInputStream(coordinatesString.getBytes()))
-        def marsNavigator = new MarsNavigator(new Scanner(System.in))
-
-        when:
-        marsNavigator.loadInput()
-        marsNavigator.processInput()
-
-        then:
-        marsNavigator.getMarsRovers().get(0).getPosition().x() == 5
-        marsNavigator.getMarsRovers().get(0).getPosition().y() == 6
-
-        marsNavigator.getMarsRovers().get(1).getPosition().x() == 5
-        marsNavigator.getMarsRovers().get(1).getPosition().y() == 1
-    }*/
 }

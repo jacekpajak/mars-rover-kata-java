@@ -43,7 +43,7 @@ public class StdinProcessor implements InputProcessor {
 
             roverInstructionsArrayList.add(
                     new RoverInstructions(
-                            new Position(roverPositionX, roverPositionY, Direction.valueOf(partsRover[2])),
+                            Position.newInstance(roverPositionX, roverPositionY, Direction.valueOf(partsRover[2])),
                             Arrays.stream(collectedInput.get(i + 1).split("")).map(
                                     el -> commandParser.parse(el.charAt(0))
                             ).toList()
