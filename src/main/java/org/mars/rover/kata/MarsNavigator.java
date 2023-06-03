@@ -3,8 +3,10 @@ package org.mars.rover.kata;
 import org.mars.rover.kata.entrydata.CommandSet;
 import org.mars.rover.kata.entrydata.RoverInstructions;
 import org.mars.rover.kata.entrydata.StdinProcessor;
+import org.mars.rover.kata.location.Coordinate;
 import org.mars.rover.kata.location.Grid;
 import org.mars.rover.kata.location.OccupiedArea;
+import org.mars.rover.kata.location.Position;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,9 +48,23 @@ public class MarsNavigator {
                     var instructionsForThisRover = roverInstructions.get(index);
 
                     instructionsForThisRover.roverCommands().forEach(
-                            instruction -> currentRover.setPosition(instruction.execute(currentRover.getPosition()))
+                            instruction -> {
+                                currentRover.setPosition(
+                                        this.wrapEdges(instruction.execute(currentRover.getPosition()))
+                                );
+                            }
                     );
                 });
+    }
+
+    protected Position wrapEdges(Position newPosition) {
+        int numRows = providedInput.gridX();
+        int numCols = providedInput.gridY();
+
+        int wrappedX = (newPosition.coordinate().x() + numRows) % numRows;
+        int wrappedY = (newPosition.coordinate().y() + numCols) % numCols;
+
+        return newPosition.withCoordinate(new Coordinate(wrappedX, wrappedY));
     }
 
     public static MarsNavigator fromString(String inputString) {

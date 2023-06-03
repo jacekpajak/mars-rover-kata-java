@@ -53,9 +53,30 @@ class NavigatorSpec extends Specification {
         }
 
         with (secondRover) {
-            coordinate().x() == 5
+            coordinate().x() == 0
             coordinate().y() == 1
             direction() == Direction.E
+        }
+    }
+
+    // todo throw exception if wrong input or marsrover lands beyond grid
+
+    def "navigator implements edge wrapping"() {
+        given:
+        def marsNavigator = MarsNavigator.fromString(
+                "5 5\n" + "0 0 N\n" + "MMMMMMMMMMMMMM"
+        )
+
+        when:
+        marsNavigator.processCommandSet()
+
+        def edgeWrappingRover = marsNavigator.getMarsRovers().get(0).getPosition()
+
+        then:
+        with (edgeWrappingRover) {
+            coordinate().x() == 0
+            coordinate().y() == 4
+            direction() == Direction.N
         }
     }
 }
