@@ -21,7 +21,6 @@ public class MarsNavigator {
         this.marsRovers = new ArrayList<>();
     }
 
-
     public void processCommandSet() {
         this.createGrid();
         this.marsRovers = this.constructRovers(this.providedInput.roverInstructions());
@@ -55,11 +54,6 @@ public class MarsNavigator {
     }
 
     public void processRoverCommands(List<RoverInstructions> roverInstructions) {
-        // for each rover done
-        // get rover instructions for this rover done
-        // for each instruction, create a new instance of rover and move it on grid position
-        // update its coordinates
-
         IntStream.range(0, this.marsRovers.size())
                 .forEach(index -> {
                     var currentRover = this.marsRovers.get(index);
@@ -67,7 +61,6 @@ public class MarsNavigator {
 
                     instructionsForThisRover.roverCommands().forEach(instruction -> {
                         currentRover.setPosition(instruction.execute(currentRover.getPosition()));
-
                     });
                 });
     }
@@ -80,10 +73,6 @@ public class MarsNavigator {
 
     public List<MarsRover> getMarsRovers() {
         return marsRovers;
-    }
-
-    public void setMarsRovers(ArrayList<MarsRover> marsRovers) {
-        this.marsRovers = marsRovers;
     }
 
     public Coordinate getCoordinate(int x, int y) {

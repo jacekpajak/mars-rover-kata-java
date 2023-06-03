@@ -2,6 +2,9 @@ package org.mars.rover.kata
 
 import org.mars.rover.kata.commands.Command
 import org.mars.rover.kata.commands.CommandParser
+import org.mars.rover.kata.commands.MoveBackward
+import org.mars.rover.kata.commands.MoveForward
+import org.mars.rover.kata.commands.TurnRight
 import org.mars.rover.kata.commands.UnknownCommand
 import org.mars.rover.kata.commands.TurnLeft;
 import spock.lang.Specification
@@ -28,5 +31,8 @@ class CommandParserSpec extends Specification {
         where:
         commandChar | expectedCommand
         'L'         | TurnLeft.class
+        'R'         | TurnRight.class
+        'M'         | MoveForward.class
+        'B'         | MoveBackward.class
     }
 }
