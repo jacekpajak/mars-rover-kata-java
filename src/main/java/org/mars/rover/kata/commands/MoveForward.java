@@ -1,7 +1,7 @@
 package org.mars.rover.kata.commands;
 
-import org.mars.rover.kata.Coordinate;
-import org.mars.rover.kata.Position;
+import org.mars.rover.kata.location.Coordinate;
+import org.mars.rover.kata.location.Position;
 
 public class MoveForward implements Command {
 

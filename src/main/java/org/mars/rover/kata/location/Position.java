@@ -1,4 +1,4 @@
-package org.mars.rover.kata;
+package org.mars.rover.kata.location;
 
 import lombok.With;
 

@@ -1,5 +1,6 @@
 package org.mars.rover.kata
 
+import org.mars.rover.kata.location.Direction
 import spock.lang.Specification
 
 class NavigatorSpec extends Specification {
@@ -13,7 +14,7 @@ class NavigatorSpec extends Specification {
         def coordinate = marsNavigator.getCoordinate(1, 3)
 
         then:
-        with (coordinate) {
+        with (coordinate.coordinate) {
             x() == 1
             y() == 3
         }

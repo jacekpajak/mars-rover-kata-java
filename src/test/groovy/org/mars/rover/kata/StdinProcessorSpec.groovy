@@ -1,7 +1,7 @@
 package org.mars.rover.kata
 
+import org.mars.rover.kata.location.Direction
 import spock.lang.Specification
-import org.mars.rover.kata.commands.CommandParser
 import org.mars.rover.kata.entrydata.StdinProcessor
 
 

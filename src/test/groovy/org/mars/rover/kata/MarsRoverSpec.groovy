@@ -1,5 +1,7 @@
 package org.mars.rover.kata
 
+import org.mars.rover.kata.location.Direction
+import org.mars.rover.kata.location.Position
 import spock.lang.Specification
 
 class MarsRoverSpec extends Specification {
