@@ -3,10 +3,7 @@ package org.mars.rover.kata;
 import org.mars.rover.kata.entrydata.CommandSet;
 import org.mars.rover.kata.entrydata.RoverInstructions;
 import org.mars.rover.kata.entrydata.StdinProcessor;
-import org.mars.rover.kata.location.Coordinate;
-import org.mars.rover.kata.location.Grid;
-import org.mars.rover.kata.location.OccupiedArea;
-import org.mars.rover.kata.location.Position;
+import org.mars.rover.kata.location.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,13 +44,23 @@ public class MarsNavigator {
                     var currentRover = this.marsRovers.get(index);
                     var instructionsForThisRover = roverInstructions.get(index);
 
-                    instructionsForThisRover.roverCommands().forEach(
-                            instruction -> {
-                                currentRover.setPosition(
-                                        this.wrapEdges(instruction.execute(currentRover.getPosition()))
-                                );
-                            }
-                    );
+                    try {
+                        instructionsForThisRover.roverCommands().forEach(
+                                instruction -> {
+                                    var oldRoverCoordinate = currentRover.getPosition().coordinate();
+                                    this.leaveOldArea(oldRoverCoordinate, currentRover);
+
+                                    var newRoverPosition = this.wrapEdges(instruction.execute(currentRover.getPosition()));
+                                    this.enterNewArea(newRoverPosition.coordinate(), currentRover);
+
+                                    currentRover.setPosition(
+                                            this.wrapEdges(instruction.execute(currentRover.getPosition()))
+                                    );
+                                }
+                        );
+                    } catch (AreaHasObstacle ignored) {
+                        // the rover stops moving
+                    }
                 });
     }
 
@@ -65,6 +72,20 @@ public class MarsNavigator {
         int wrappedY = (newPosition.coordinate().y() + numCols) % numCols;
 
         return newPosition.withCoordinate(new Coordinate(wrappedX, wrappedY));
+    }
+
+    protected void leaveOldArea(Coordinate coordinate, MarsRover marsRover) {
+        this.grid.getAreasOccupiedByRovers()
+                .get(coordinate.x())
+                .get(coordinate.y())
+                .leaveArea(marsRover);
+    }
+
+    protected void enterNewArea(Coordinate coordinate, MarsRover marsRover) {
+        this.grid.getAreasOccupiedByRovers()
+                .get(coordinate.x())
+                .get(coordinate.y())
+                .enterArea(marsRover);
     }
 
     public static MarsNavigator fromString(String inputString) {

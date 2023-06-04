@@ -61,7 +61,7 @@ class NavigatorSpec extends Specification {
 
     // todo throw exception if wrong input or marsrover lands beyond grid
 
-    def "navigator implements edge wrapping"() {
+    def "navigator implements y axis edge wrapping"() {
         given:
         def marsNavigator = MarsNavigator.fromString(
                 "5 5\n" + "0 0 N\n" + "MMMMMMMMMMMMMM"
@@ -77,6 +77,66 @@ class NavigatorSpec extends Specification {
             coordinate().x() == 0
             coordinate().y() == 4
             direction() == Direction.N
+        }
+    }
+
+    def "navigator implements x axis edge wrapping"() {
+        given:
+        def marsNavigator = MarsNavigator.fromString(
+                "5 5\n" + "0 0 E\n" + "MMMMMMMMMMMMMM"
+        )
+
+        when:
+        marsNavigator.processCommandSet()
+
+        def edgeWrappingRover = marsNavigator.getMarsRovers().get(0).getPosition()
+
+        then:
+        with (edgeWrappingRover) {
+            coordinate().x() == 4
+            coordinate().y() == 0
+            direction() == Direction.E
+        }
+    }
+
+    def "navigator correctly allocates place on the grid for a rover"() {
+        given:
+        def marsNavigator = MarsNavigator.fromString(
+                "5 5\n" + "1 2 N\n" + "LMLMLMLMM\n"
+        )
+
+        when:
+        marsNavigator.processCommandSet()
+        var marsRover = marsNavigator.marsRovers.get(0)
+        var roverFromGrid = marsNavigator
+                .grid
+                .areasOccupiedByRovers
+                .get(marsRover.getPosition().coordinate().x())
+                .get(marsRover.getPosition().coordinate().y())
+                .mapOfRoversOccupyingThisArea.get(marsRover.uniqueId)
+
+        then:
+        marsRover == roverFromGrid
+    }
+    def "navigator throws on detected obstacle and stops the rover"() {
+        given:
+        def marsNavigator = MarsNavigator.fromString(
+                "5 5\n" + "1 2 N\n" + "LMLMLMLMM\n"
+        )
+
+        marsNavigator.grid.areasOccupiedByRovers.get(0).get(2).setHasObstacle(true)
+
+        when:
+        marsNavigator.processCommandSet()
+        def roverThatEncounteredObstacle = marsNavigator.getMarsRovers().get(0).getPosition()
+
+        then:
+
+
+        with (roverThatEncounteredObstacle) {
+            coordinate().x() == 1
+            coordinate().y() == 2
+            direction() == Direction.W
         }
     }
 }
