@@ -1,5 +1,6 @@
 package org.mars.rover.kata;
 
+import org.mars.rover.kata.commands.Command;
 import org.mars.rover.kata.entrydata.CommandSet;
 import org.mars.rover.kata.entrydata.RoverInstructions;
 import org.mars.rover.kata.entrydata.StdinProcessor;
@@ -24,7 +25,7 @@ public class MarsNavigator {
 
     public void processCommandSet() {
         this.marsRovers = this.constructRovers(this.providedInput.roverInstructions());
-        this.processRoverCommands(this.providedInput.roverInstructions());
+        this.processRoverCommands(this.providedInput.roverInstructions(), this.marsRovers.size());
     }
 
     public List<MarsRover> constructRovers(List<RoverInstructions> roverInstructions) {
@@ -38,30 +39,31 @@ public class MarsNavigator {
                 .toList();
     }
 
-    public void processRoverCommands(List<RoverInstructions> roverInstructions) {
-        IntStream.range(0, this.marsRovers.size())
-                .forEach(index -> {
-                    var currentRover = this.marsRovers.get(index);
-                    var instructionsForThisRover = roverInstructions.get(index);
+    public void processRoverCommands(List<RoverInstructions> roverInstructions, int marsRoversSize) {
+        IntStream.range(0, marsRoversSize).forEach(index -> processRover(roverInstructions, index));
+    }
 
-                    try {
-                        instructionsForThisRover.roverCommands().forEach(
-                                instruction -> {
-                                    var oldRoverCoordinate = currentRover.getPosition().coordinate();
-                                    this.leaveOldArea(oldRoverCoordinate, currentRover);
+    private void processRover(List<RoverInstructions> roverInstructions, int index) {
+        var currentRover = this.marsRovers.get(index);
+        var instructionsForThisRover = roverInstructions.get(index);
 
-                                    var newRoverPosition = this.wrapEdges(instruction.execute(currentRover.getPosition()));
-                                    this.enterNewArea(newRoverPosition.coordinate(), currentRover);
+        try {
+            instructionsForThisRover.roverCommands().forEach(
+                    instruction -> this.processInstruction(currentRover, instruction)
+            );
+        } catch (AreaHasObstacle ignored) {
+            // rover keeps moving
+        }
+    }
 
-                                    currentRover.setPosition(
-                                            this.wrapEdges(instruction.execute(currentRover.getPosition()))
-                                    );
-                                }
-                        );
-                    } catch (AreaHasObstacle ignored) {
-                        // the rover stops moving
-                    }
-                });
+    private void processInstruction(MarsRover currentRover, Command instruction) {
+        this.grid.leaveOldArea(currentRover, currentRover.getPosition());
+        var newRoverPosition = instruction.execute(currentRover.getPosition());
+        this.grid.enterNewArea(currentRover, newRoverPosition);
+
+        currentRover.setPosition(
+                this.wrapEdges(instruction.execute(currentRover.getPosition()))
+        );
     }
 
     protected Position wrapEdges(Position newPosition) {
@@ -74,20 +76,6 @@ public class MarsNavigator {
         return newPosition.withCoordinate(new Coordinate(wrappedX, wrappedY));
     }
 
-    protected void leaveOldArea(Coordinate coordinate, MarsRover marsRover) {
-        this.grid.getAreasOccupiedByRovers()
-                .get(coordinate.x())
-                .get(coordinate.y())
-                .leaveArea(marsRover);
-    }
-
-    protected void enterNewArea(Coordinate coordinate, MarsRover marsRover) {
-        this.grid.getAreasOccupiedByRovers()
-                .get(coordinate.x())
-                .get(coordinate.y())
-                .enterArea(marsRover);
-    }
-
     public static MarsNavigator fromString(String inputString) {
         var commandSet = new StdinProcessor().processInput(inputString);
 
@@ -98,7 +86,7 @@ public class MarsNavigator {
         return marsRovers;
     }
 
-    public OccupiedArea getCoordinate(int x, int y) {
+    public OccupiedArea getOccupiedArea(int x, int y) {
         return this.grid.getAreasOccupiedByRovers().get(x).get(y);
     }
 }

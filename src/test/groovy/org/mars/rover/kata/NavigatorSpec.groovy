@@ -11,10 +11,10 @@ class NavigatorSpec extends Specification {
 
         when:
         marsNavigator.processCommandSet()
-        def coordinate = marsNavigator.getCoordinate(1, 3)
+        def occupiedArea = marsNavigator.getOccupiedArea(1, 3)
 
         then:
-        with (coordinate.coordinate) {
+        with (occupiedArea.coordinate) {
             x() == 1
             y() == 3
         }
@@ -131,8 +131,6 @@ class NavigatorSpec extends Specification {
         def roverThatEncounteredObstacle = marsNavigator.getMarsRovers().get(0).getPosition()
 
         then:
-
-
         with (roverThatEncounteredObstacle) {
             coordinate().x() == 1
             coordinate().y() == 2
