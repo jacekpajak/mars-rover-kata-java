@@ -13,8 +13,7 @@ class NavigatorSpec extends Specification {
         def coordinate = marsNavigator.getCoordinate(1, 3)
 
         then:
-        coordinate.x() == 1
-        coordinate.y() == 3
+        coordinate == new Coordinate(1, 3)
     }
 
     def "navigator creates rover instances"() {
@@ -30,22 +29,20 @@ class NavigatorSpec extends Specification {
         marsNavigator.getMarsRovers().size() == 2
     }
 
-    /*@IgnoreRest() todo refactor or delete
-    def "navigator rover moves to the coordinate"() {
+    def "navigator translates rover commands into final position"() {
         given:
-        def coordinatesString = "5 5\n" + "1 2 N\n" + "LMLMLMLMM\n" + "3 3 E\n" + "MMRMMRMRRM\n"
-        System.setIn(new ByteArrayInputStream(coordinatesString.getBytes()))
-        def marsNavigator = new MarsNavigator(new Scanner(System.in))
+        def marsNavigator = MarsNavigator.fromString(
+                "5 5\n" + "1 2 N\n" + "LMLMLMLMM\n" + "3 3 E\n" + "MMRMMRMRRM\n"
+        )
 
         when:
-        marsNavigator.loadInput()
-        marsNavigator.processInput()
+        marsNavigator.processCommandSet()
 
         then:
-        marsNavigator.getMarsRovers().get(0).getPosition().x() == 5
-        marsNavigator.getMarsRovers().get(0).getPosition().y() == 6
+        marsNavigator.getMarsRovers() == [
+                new MarsRover(1, 3, Direction.N),
+                new MarsRover(5, 1, Direction.E)
+        ]
 
-        marsNavigator.getMarsRovers().get(1).getPosition().x() == 5
-        marsNavigator.getMarsRovers().get(1).getPosition().y() == 1
-    }*/
+    }
 }

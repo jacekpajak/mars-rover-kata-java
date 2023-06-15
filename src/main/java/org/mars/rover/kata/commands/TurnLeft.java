@@ -6,7 +6,6 @@ public class TurnLeft implements Command {
 
   @Override
   public Position execute(Position position) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'execute'");
+    return position.withDirection(position.direction().nextCounterclockwise());
   }
 }

@@ -1,14 +1,12 @@
 package org.mars.rover.kata;
 
-import org.mars.rover.kata.commands.CommandParser;
 import org.mars.rover.kata.entrydata.CommandSet;
 import org.mars.rover.kata.entrydata.RoverInstructions;
 import org.mars.rover.kata.entrydata.StdinProcessor;
 
-import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+import java.util.stream.IntStream;
 
 public class MarsNavigator {
     CommandSet providedInput;
@@ -26,7 +24,8 @@ public class MarsNavigator {
 
     public void processCommandSet() {
         this.createGrid();
-        this.marsRovers = this.constructRovers(this.providedInput.roverInstructions()); // todo write test
+        this.marsRovers = this.constructRovers(this.providedInput.roverInstructions());
+        this.processRoverCommands(this.providedInput.roverInstructions());
     }
 
     protected void createGrid() {
@@ -48,11 +47,23 @@ public class MarsNavigator {
         return roverInstructions.stream()
                 .map(RoverInstructions::initialPosition)
                 .map(initialPosition -> new MarsRover(
-                        initialPosition.x(),
-                        initialPosition.y(),
+                        initialPosition.coordinate().x(),
+                        initialPosition.coordinate().y(),
                         initialPosition.direction()
                 ))
                 .toList();
+    }
+
+    public void processRoverCommands(List<RoverInstructions> roverInstructions) {
+        IntStream.range(0, this.marsRovers.size())
+                .forEach(index -> {
+                    var currentRover = this.marsRovers.get(index);
+                    var instructionsForThisRover = roverInstructions.get(index);
+
+                    instructionsForThisRover.roverCommands().forEach(
+                            instruction -> currentRover.setPosition(instruction.execute(currentRover.getPosition()))
+                    );
+                });
     }
 
     public static MarsNavigator fromString(String inputString) {
@@ -63,10 +74,6 @@ public class MarsNavigator {
 
     public List<MarsRover> getMarsRovers() {
         return marsRovers;
-    }
-
-    public void setMarsRovers(ArrayList<MarsRover> marsRovers) {
-        this.marsRovers = marsRovers;
     }
 
     public Coordinate getCoordinate(int x, int y) {
