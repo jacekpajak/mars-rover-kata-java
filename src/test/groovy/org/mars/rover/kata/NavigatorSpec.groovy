@@ -13,10 +13,7 @@ class NavigatorSpec extends Specification {
         def coordinate = marsNavigator.getCoordinate(1, 3)
 
         then:
-        with (coordinate) {
-            x() == 1
-            y() == 3
-        }
+        coordinate == new Coordinate(1, 3)
     }
 
     def "navigator creates rover instances"() {
@@ -41,20 +38,11 @@ class NavigatorSpec extends Specification {
         when:
         marsNavigator.processCommandSet()
 
-        def firstRover = marsNavigator.getMarsRovers().get(0).getPosition()
-        def secondRover = marsNavigator.getMarsRovers().get(1).getPosition()
-
         then:
-        with (firstRover) {
-            coordinate().x() == 1
-            coordinate().y() == 3
-            direction() == Direction.N
-        }
+        marsNavigator.getMarsRovers() == [
+                new MarsRover(1, 3, Direction.N),
+                new MarsRover(5, 1, Direction.E)
+        ]
 
-        with (secondRover) {
-            coordinate().x() == 5
-            coordinate().y() == 1
-            direction() == Direction.E
-        }
     }
 }

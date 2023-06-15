@@ -6,6 +6,6 @@ class MarsRoverSpec extends Specification {
 
     def "rover has a starting position and direction it faces"() {
         expect:
-        new MarsRover(0, 1, Direction.N).getPosition() == Position.newInstance(0, 1, Direction.N)
+        new MarsRover(0, 1, Direction.N).getPosition() == new Position(new Coordinate(0, 1), Direction.N)
     }
 }

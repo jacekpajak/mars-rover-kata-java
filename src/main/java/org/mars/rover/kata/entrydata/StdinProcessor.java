@@ -1,5 +1,6 @@
 package org.mars.rover.kata.entrydata;
 
+import org.mars.rover.kata.Coordinate;
 import org.mars.rover.kata.Direction;
 import org.mars.rover.kata.Position;
 import org.mars.rover.kata.commands.CommandParser;
@@ -43,7 +44,7 @@ public class StdinProcessor implements InputProcessor {
 
             roverInstructionsArrayList.add(
                     new RoverInstructions(
-                            Position.newInstance(roverPositionX, roverPositionY, Direction.valueOf(partsRover[2])),
+                            new Position(new Coordinate(roverPositionX, roverPositionY), Direction.valueOf(partsRover[2])),
                             Arrays.stream(collectedInput.get(i + 1).split("")).map(
                                     el -> commandParser.parse(el.charAt(0))
                             ).toList()
