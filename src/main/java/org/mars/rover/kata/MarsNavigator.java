@@ -19,7 +19,7 @@ public class MarsNavigator {
 
     public MarsNavigator(CommandSet providedInput) {
         this.providedInput = providedInput;
-        this.grid = Grid.createGrid(providedInput.gridX(), providedInput.gridY());
+        this.grid = Grid.createGrid(providedInput.width(), providedInput.height());
         this.marsRovers = new ArrayList<>();
     }
 
@@ -57,23 +57,8 @@ public class MarsNavigator {
     }
 
     private void processInstruction(MarsRover currentRover, Command instruction) {
-        this.grid.leaveOldArea(currentRover, currentRover.getPosition());
         var newRoverPosition = instruction.execute(currentRover.getPosition());
         this.grid.enterNewArea(currentRover, newRoverPosition);
-
-        currentRover.setPosition(
-                this.wrapEdges(instruction.execute(currentRover.getPosition()))
-        );
-    }
-
-    protected Position wrapEdges(Position newPosition) {
-        int numRows = providedInput.gridX();
-        int numCols = providedInput.gridY();
-
-        int wrappedX = (newPosition.coordinate().x() + numRows) % numRows;
-        int wrappedY = (newPosition.coordinate().y() + numCols) % numCols;
-
-        return newPosition.withCoordinate(new Coordinate(wrappedX, wrappedY));
     }
 
     public static MarsNavigator fromString(String inputString) {

@@ -10,9 +10,4 @@ class MarsRoverSpec extends Specification {
         expect:
         new MarsRover(0, 1, Direction.N).getPosition() == Position.newInstance(0, 1, Direction.N)
     }
-
-    def "rover has a unique id that is different from any other"() {
-        expect:
-        new MarsRover(0, 1, Direction.N).getUniqueId() != new MarsRover(1, 1, Direction.S).getUniqueId()
-    }
 }

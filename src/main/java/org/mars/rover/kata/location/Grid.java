@@ -43,18 +43,12 @@ public class Grid {
     public void enterNewArea(MarsRover marsRover, Position newPosition) {
         var wrappedEdgesPosition = this.wrapEdges(newPosition);
 
+
         this.getAreasOccupiedByRovers()
                 .get(wrappedEdgesPosition.coordinate().x())
                 .get(wrappedEdgesPosition.coordinate().y())
                 .enterArea(marsRover);
-    }
 
-    public void leaveOldArea(MarsRover marsRover, Position oldPosition) {
-        var wrappedEdgesPosition = this.wrapEdges(oldPosition);
-
-        this.getAreasOccupiedByRovers()
-                .get(wrappedEdgesPosition.coordinate().x())
-                .get(wrappedEdgesPosition.coordinate().y())
-                .leaveArea(marsRover);
+        marsRover.setPosition(wrappedEdgesPosition);
     }
 }

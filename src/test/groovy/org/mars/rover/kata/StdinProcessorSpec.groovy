@@ -9,13 +9,13 @@ class StdinProcessorSpec extends Specification {
     def "receives string input and constructs grid dimensions"() {
         when:
         def commandSet = new StdinProcessor().processInput(
-            "5 5\n" + "1 2 N\n" + "LMLMLMLMM\n" + "3 3 E\n" + "MMRMMRMRRM\n"
+                "5 5\n" + "1 2 N\n" + "LMLMLMLMM\n" + "3 3 E\n" + "MMRMMRMRRM\n"
         )
 
         then:
         with(commandSet) {
-            gridX() == 5
-            gridY() == 5
+            width() == 5
+            height() == 5
             roverInstructions().size() == 2
 
             commandSet.roverInstructions().get(0).initialPosition().coordinate().x() == 1

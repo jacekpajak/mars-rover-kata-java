@@ -99,25 +99,25 @@ class NavigatorSpec extends Specification {
         }
     }
 
-    def "navigator correctly allocates place on the grid for a rover"() {
+    def "navigator implements y axis edge wrapping"() {
         given:
         def marsNavigator = MarsNavigator.fromString(
-                "5 5\n" + "1 2 N\n" + "LMLMLMLMM\n"
+                "5 5\n" + "0 0 N\n" + "MMMMMMMMMMMMMM"
         )
 
         when:
         marsNavigator.processCommandSet()
-        var marsRover = marsNavigator.marsRovers.get(0)
-        var roverFromGrid = marsNavigator
-                .grid
-                .areasOccupiedByRovers
-                .get(marsRover.getPosition().coordinate().x())
-                .get(marsRover.getPosition().coordinate().y())
-                .mapOfRoversOccupyingThisArea.get(marsRover.uniqueId)
+
+        def edgeWrappingRover = marsNavigator.getMarsRovers().get(0).getPosition()
 
         then:
-        marsRover == roverFromGrid
+        with (edgeWrappingRover) {
+            coordinate().x() == 0
+            coordinate().y() == 4
+            direction() == Direction.N
+        }
     }
+
     def "navigator throws on detected obstacle and stops the rover"() {
         given:
         def marsNavigator = MarsNavigator.fromString(
